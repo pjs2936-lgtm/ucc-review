@@ -60,7 +60,7 @@ var list = document.getElementById("list"), v = document.getElementById("v"), tt
 items.forEach(function (it, i) {
   var b = document.createElement("button");
   b.innerHTML = '<span class="no">' + it[0] + '번</span><span>' + it[1] + '</span><span class="len">' + it[2] + '</span>';
-  b.onclick = function () { show(i, true); };
+  b.onclick = function () { show(i, true); if (window.innerWidth < 760) v.scrollIntoView({behavior:"smooth", block:"center"}); };
   list.appendChild(b);
 });
 function show(i, play) {
@@ -70,10 +70,13 @@ function show(i, play) {
   ttl.textContent = it[0] + "번  " + it[1];
   v.src = "v/" + it[0] + ".mp4";
   if (play) v.play();
+  history.replaceState(null, "", "#" + it[0]);
 }
 document.getElementById("prev").onclick = function () { show(cur - 1, true); };
 document.getElementById("next").onclick = function () { show(cur + 1, true); };
-show(0, false);
+var h = location.hash.slice(1), k = items.findIndex(function (it) { return it[0] === h; });
+show(k < 0 ? 0 : k, false);
+if (k >= 0 && window.innerWidth < 760) setTimeout(function () { v.scrollIntoView({block:"center"}); }, 300);
 </script>
 </body>
 </html>

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UCC 공모전 2차 심사 응모 영상</title>
+<style>
+  :root { --navy:#1F3A5F; --gold:#C9A227; --hl:#F6EFD9; --line:#d5dbe3; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:#f4f5f7; color:#222; font-family:"맑은 고딕","Malgun Gothic",sans-serif; }
+  header { background:#fff; padding:18px 28px 14px; border-bottom:4px double var(--navy); }
+  header h1 { margin:0; font-size:22px; color:var(--navy); letter-spacing:-0.5px; }
+  header p { margin:6px 0 0; font-size:13px; color:#555; }
+  main { display:flex; gap:20px; padding:20px 28px; align-items:flex-start; }
+  nav { width:300px; flex:none; background:#fff; border:1px solid var(--line); }
+  nav button { display:flex; gap:10px; width:100%; padding:12px 14px; border:0; border-bottom:1px solid var(--line);
+    background:#fff; text-align:left; font:inherit; font-size:14px; cursor:pointer; color:#222; }
+  nav button:last-child { border-bottom:0; }
+  nav button:hover { background:#f7f8fa; }
+  nav button.on { background:var(--hl); font-weight:bold; box-shadow:inset 4px 0 0 var(--gold); }
+  nav .no { color:var(--navy); font-weight:bold; width:42px; flex:none; }
+  nav .len { margin-left:auto; color:#888; font-size:12px; flex:none; }
+  section { flex:1; min-width:0; background:#fff; border:1px solid var(--line); padding:16px; }
+  section h2 { margin:0 0 12px; font-size:17px; color:var(--navy); }
+  video { width:100%; max-height:72vh; background:#000; display:block; }
+  .ctl { display:flex; justify-content:space-between; margin-top:12px; }
+  .ctl button { padding:8px 16px; border:1px solid var(--navy); background:#fff; color:var(--navy); font:inherit; font-size:13px; cursor:pointer; }
+  .ctl button:hover { background:var(--navy); color:#fff; }
+  .note { font-size:12px; color:#666; margin-top:10px; }
+  @media (max-width:760px) { main { flex-direction:column; padding:12px; } nav { width:100%; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>「종로구 주차장 활용 아이디어 UCC」 공모전 2차 심사 응모 영상</h1>
+  <p>목록에서 작품을 누르면 재생됩니다. 휴대폰은 화면을 가로로 돌리거나 전체 화면으로 보시면 편합니다.</p>
+</header>
+<main>
+  <nav id="list"></nav>
+  <section>
+    <h2 id="ttl"></h2>
+    <video id="v" controls preload="metadata"></video>
+    <div class="ctl"><button id="prev">◀ 이전 작품</button><button id="next">다음 작품 ▶</button></div>
+    <p class="note">※ 재생이 안 되면 이 파일을 Chrome 또는 Edge로 열어 주십시오.</p>
+  </section>
+</main>
+<script>
+var items = [
+  ["01","마음이 머무는 주차장","1분 16초"],
+  ["02","차를 돌보는 주차장","1분 17초"],
+  ["03","여기서부터 종로입니다","1분 3초"],
+  ["04","비우고 세우고 아끼고","1분 17초"],
+  ["05","책도 주차합니다","1분 27초"],
+  ["06","주차 걱정 없는 동네(노인시설 입점)","1분"],
+  ["07","LED·충전 인프라 거주자우선주차장 고도화","10초"],
+  ["08","동네형 이동식 스마트 쉼터","10초"]
+];
+var list = document.getElementById("list"), v = document.getElementById("v"), ttl = document.getElementById("ttl"), cur = 0;
+items.forEach(function (it, i) {
+  var b = document.createElement("button");
+  b.innerHTML = '<span class="no">' + it[0] + '번</span><span>' + it[1] + '</span><span class="len">' + it[2] + '</span>';
+  b.onclick = function () { show(i, true); };
+  list.appendChild(b);
+});
+function show(i, play) {
+  cur = (i + items.length) % items.length;
+  var it = items[cur];
+  [].forEach.call(list.children, function (b, k) { b.className = k === cur ? "on" : ""; });
+  ttl.textContent = it[0] + "번  " + it[1];
+  v.src = "v/" + it[0] + ".mp4";
+  if (play) v.play();
+}
+document.getElementById("prev").onclick = function () { show(cur - 1, true); };
+document.getElementById("next").onclick = function () { show(cur + 1, true); };
+show(0, false);
+</script>
+</body>
+</html>
